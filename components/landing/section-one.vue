@@ -18,7 +18,7 @@
       <a v-if="user" href="/dashboard">
         <el-button type="primary" rounded>Dashboard</el-button>
       </a>
-      <a v-else href="/auth/login">
+      <a v-else href="/auth">
         <el-button type="primary" rounded>Login</el-button>
       </a>
     </div>
