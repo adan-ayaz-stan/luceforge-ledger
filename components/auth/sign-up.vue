@@ -71,7 +71,7 @@ const [passwordConfirm, passwordConfirmProps] = defineField(
 );
 
 const onSubmit = handleSubmit(async (values) => {
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email: values.email,
     password: values.password,
     options: {
@@ -85,6 +85,12 @@ const onSubmit = handleSubmit(async (values) => {
     setFieldError("email", "This email is already registered.");
     return;
   }
+
+  await supabase.from("users").insert({
+    id: `${data.user?.id}`,
+    email: values.email,
+    name: values.fullName,
+  });
 
   navigateTo("/dashboard");
 });

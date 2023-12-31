@@ -52,7 +52,7 @@ const [email, emailProps] = defineField("email", elPlusConfig);
 const [password, passwordProps] = defineField("password", elPlusConfig);
 
 const onSubmit = handleSubmit(async (values) => {
-  const { error } = await supabase.auth.signInWithPassword({
+  const { data, error } = await supabase.auth.signInWithPassword({
     email: values.email,
     password: values.password,
   });
