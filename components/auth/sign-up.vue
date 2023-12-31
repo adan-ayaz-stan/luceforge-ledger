@@ -69,6 +69,11 @@ const onSubmit = handleSubmit(async (values) => {
   const { data, error } = await supabase.auth.signUp({
     email: values.email,
     password: values.password,
+    options: {
+      data: {
+        full_name: values.fullName,
+      },
+    },
   });
 });
 </script>
