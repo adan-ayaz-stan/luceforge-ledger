@@ -12,11 +12,15 @@
       </el-form-item>
 
       <el-form-item v-bind="passwordProps" label="Password">
-        <el-input placeholder="Password" v-model="password" />
+        <el-input placeholder="Password" v-model="password" type="password" />
       </el-form-item>
 
       <el-form-item v-bind="passwordConfirmProps" label="Password confirmation">
-        <el-input placeholder="Confirm password" v-model="passwordConfirm" />
+        <el-input
+          placeholder="Confirm password"
+          v-model="passwordConfirm"
+          type="password"
+        />
       </el-form-item>
 
       <div>
@@ -29,8 +33,9 @@
 
 <script lang="ts" setup>
 import * as yup from "yup";
+import type { Database } from "~/types/database.types";
 
-const supabase = useSupabaseClient();
+const supabase = useSupabaseClient<Database>();
 
 const schema = toTypedSchema(
   yup.object({
@@ -45,7 +50,7 @@ const schema = toTypedSchema(
   })
 );
 
-const { defineField, handleSubmit, resetForm } = useForm({
+const { defineField, handleSubmit, resetForm, setFieldError } = useForm({
   validationSchema: schema,
 });
 
@@ -66,7 +71,7 @@ const [passwordConfirm, passwordConfirmProps] = defineField(
 );
 
 const onSubmit = handleSubmit(async (values) => {
-  const { data, error } = await supabase.auth.signUp({
+  const { error } = await supabase.auth.signUp({
     email: values.email,
     password: values.password,
     options: {
@@ -75,6 +80,13 @@ const onSubmit = handleSubmit(async (values) => {
       },
     },
   });
+
+  if (error) {
+    setFieldError("email", "This email is already registered.");
+    return;
+  }
+
+  navigateTo("/dashboard");
 });
 </script>
 

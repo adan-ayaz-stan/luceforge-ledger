@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     try {
         (await supabase).from('users').insert({
             id: body.record.id,
-            name: "Test User",
+            name: body.record.raw_user_meta_data.full_name,
             email: body.record.email,
         })
 

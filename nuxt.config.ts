@@ -20,9 +20,9 @@ export default defineNuxtConfig({
   },
   supabase: {
     redirectOptions: {
-      login: "/auth/login",
+      login: "/auth",
       callback: "/confirm",
-      exclude: ["/"],
+      exclude: ["/", "/api/v1/webhooks/*"],
     },
   },
   veeValidate: {
